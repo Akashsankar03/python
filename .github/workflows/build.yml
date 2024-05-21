@@ -18,6 +18,9 @@ jobs:
         with:
           python-version: 3.8
 
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Install Buildozer
         run: |
           pip install buildozer
@@ -39,6 +42,10 @@ jobs:
             libavformat-dev \
             libavcodec-dev \
             zlib1g-dev
+
+      - name: Accept Android SDK licenses
+        run: |
+          yes | sdkmanager --licenses
 
       - name: Build APK
         run: |
