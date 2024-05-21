@@ -47,18 +47,18 @@ jobs:
     - name: Install SDK packages
       run: |
         echo "Installing SDK packages"
-        yes | /opt/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses
-        /opt/android-sdk/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-30" "build-tools;30.0.3" "ndk;21.4.7075529" "cmdline-tools;latest" "tools"
+        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
+        $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-31" "build-tools;31.0.0" "ndk;21.4.7075529" "cmdline-tools;latest"
 
     - name: Verify Java installation
       run: java -version
 
     - name: Verify sdkmanager installation
-      run: /opt/android-sdk/cmdline-tools/latest/bin/sdkmanager --list
+      run: $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --list
 
     - name: Verify AIDL installation
       run: |
-        if [ -x "$(command -v /opt/android-sdk/build-tools/30.0.3/aidl)" ]; then
+        if [ -x "$(command -v $ANDROID_HOME/build-tools/31.0.0/aidl)" ]; then
           echo "AIDL found"
         else
           echo "AIDL not found"
@@ -72,7 +72,8 @@ jobs:
 
     - name: Build the APK
       run: |
-        yes | buildozer -v android debug
+        cd $GITHUB_WORKSPACE
+        yes | buildozer android debug
       env:
         ANDROIDSDK: /opt/android-sdk
         ANDROIDNDK: /opt/android-ndk
@@ -82,4 +83,4 @@ jobs:
       with:
         name: MyApp-APK
         path: |
-          .buildozer/android/platform/build-arm64-v8a_armeabi-v7a/dists/myapp/build/outputs/apk/debug/*.apk
+          $GITHUB_WORKSPACE/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/dists/myapp/build/outputs/apk/debug/*.apk
