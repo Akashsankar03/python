@@ -59,8 +59,7 @@ jobs:
           yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses
           $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-31" "build-tools;31.0.0"
 
-      - name: Add Android SDK to PATH
-        run: echo "::add-path::/opt/android-sdk/platform-tools"
+      
 
       - name: Build APK
         env:
