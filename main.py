@@ -1,13 +1,14 @@
-from kivy.app import App
-from kivy.uix.label import Label
-from kivy.uix.boxlayout import BoxLayout
+from kivy.lang import Builder
+from kivy.uix.screenmanager import ScreenManager, Screen
+from kivymd.app import MDApp
 
-class HelloApp(App):
+class HelloScreen(Screen):
+    pass
+
+class HelloApp(MDApp):
     def build(self):
-        layout = BoxLayout(orientation='vertical')
-        label = Label(text='Hello', font_size=72)
-        layout.add_widget(label)
-        return layout
+        # Load the KV file
+        return Builder.load_file('hello.kv')
 
 if __name__ == '__main__':
     HelloApp().run()
