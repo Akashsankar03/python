@@ -58,7 +58,7 @@ jobs:
 
     - name: Verify AIDL installation
       run: |
-        if [ -f "/opt/android-sdk/build-tools/30.0.3/aidl" ]; then
+        if [ -x "$(command -v /opt/android-sdk/build-tools/30.0.3/aidl)" ]; then
           echo "AIDL found"
         else
           echo "AIDL not found"
