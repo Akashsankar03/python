@@ -15,8 +15,6 @@ jobs:
     env:
       ANDROID_HOME: /opt/android-sdk
       ANDROID_NDK_HOME: /opt/android-ndk
-      SDKMANAGER_OPTS: '--sdk_root=/opt/android-sdk'
-      BUILD_TOOLS_VERSION: "30.0.3"
 
     steps:
     - name: Checkout repository
@@ -35,8 +33,8 @@ jobs:
     - name: Set up Java
       uses: actions/setup-java@v1
       with:
-        java-version: '11'
         distribution: 'adopt'
+        java-version: '11'
 
     - name: Download Android SDK tools
       run: |
