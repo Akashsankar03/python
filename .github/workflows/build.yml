@@ -41,12 +41,29 @@ jobs:
             libswscale-dev \
             libavformat-dev \
             libavcodec-dev \
-            zlib1g-dev
+            zlib1g-dev \
+            openjdk-11-jdk \
+            wget
 
-      - name: Accept Android SDK licenses
+      - name: Set up Android SDK
+        env:
+          ANDROID_SDK_ROOT: /opt/android-sdk
         run: |
-          yes | sdkmanager --licenses
+          mkdir -p $ANDROID_SDK_ROOT
+          wget -q "https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip" -O commandlinetools.zip
+          unzip -q commandlinetools.zip -d $ANDROID_SDK_ROOT
+          rm commandlinetools.zip
+          mv $ANDROID_SDK_ROOT/cmdline-tools $ANDROID_SDK_ROOT/latest
+          mkdir -p $ANDROID_SDK_ROOT/cmdline-tools
+          mv $ANDROID_SDK_ROOT/latest $ANDROID_SDK_ROOT/cmdline-tools/latest
+          yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses
+          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-31" "build-tools;31.0.0"
+
+      - name: Add Android SDK to PATH
+        run: echo "::add-path::/opt/android-sdk/platform-tools"
 
       - name: Build APK
+        env:
+          ANDROID_SDK_ROOT: /opt/android-sdk
         run: |
           buildozer android debug
